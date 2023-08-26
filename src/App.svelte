@@ -1,8 +1,10 @@
 <script lang="ts">
 	import Titulo from "./components/Titulo.svelte";
 
+	let inputValue;
+
 	function onSubmit() {
-		console.log("oi");
+		console.log(inputValue);
 	}
 </script>
 
@@ -12,7 +14,7 @@
 
 		<div class="busca-usuario">
 			<form action="" on:submit|preventDefault={onSubmit}>
-				<input type="text" class="input" />
+				<input type="text" class="input" bind:value={inputValue}/>
 				<div class="botao-container">
 					<button type="submit" class="botao">Buscar</button>
 				</div>
