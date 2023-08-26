@@ -1,8 +1,16 @@
 <script lang="ts">
 	import BarraSuperior from "./components/BarraSuperior.svelte";
 	import Titulo from "./components/Titulo.svelte";
+	import type IUsuario from "./interfaces/usuario.model";
 
-	let usuario = {};
+	let usuario: IUsuario = {
+		avatar_url: "https://github.com/pedroargentati.png",
+		login: "pedroargentati",
+		nome: "Pedro Argentati",
+		perfil_url: "https://github.com/pedroargentati",
+		repositorios_publicos: 50,
+		seguidores: 20,
+	};
 	let inputValue;
 
 	function onSubmit() {
@@ -29,27 +37,26 @@
 
 		<div class="usuario">
 			<div class="foto-container">
-				<a
-					href="https://github.com/pedroargentati"
-					target="_blank"
-					rel="noopener"
-				>
-					<div class="foto-usuario" />
+				<a href={usuario.perfil_url} target="_blank" rel="noopener">
+					<div
+						class="foto-usuario"
+						style:background-image="url({usuario.avatar_url})"
+					/>
 				</a>
 			</div>
 
 			<div class="detalhes-usuario">
 				<div class="info">
-					Nome: <span>Pedro Argentati</span>
+					Nome: <span>{usuario.nome}</span>
 				</div>
 				<div class="info">
-					Usuário: <span>pedroargentati</span>
+					Usuário: <span>{usuario.login}</span>
 				</div>
 				<div class="info">
-					Seguidores: <span>30</span>
+					Seguidores: <span>{usuario.seguidores}</span>
 				</div>
 				<div class="info">
-					Repositorios: <span>20</span>
+					Repositorios: <span>{usuario.repositorios_publicos}</span>
 				</div>
 			</div>
 		</div>
@@ -145,7 +152,6 @@
 		border: 4.56px solid #2e80fa;
 		border-radius: 50%;
 		background-size: cover;
-		background-image: url('https://github.com/pedroargentati.png');
 	}
 
 	.detalhes-usuario {
