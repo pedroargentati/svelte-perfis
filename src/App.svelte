@@ -2,6 +2,7 @@
 	import BarraSuperior from "./components/BarraSuperior.svelte";
 	import Titulo from "./components/Titulo.svelte";
 
+	let usuario = {};
 	let inputValue;
 
 	function onSubmit() {
