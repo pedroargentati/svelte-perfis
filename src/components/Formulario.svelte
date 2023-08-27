@@ -3,9 +3,10 @@
   import type IUsuario from "../interfaces/usuario.model";
 
   let inputValue = "";
+  let errorStatus: number | null = null;
 
   const dispatch = createEventDispatcher<{
-	onUpdateUser: IUsuario
+    onUpdateUser: IUsuario | null;
   }>();
 
   async function onSubmit() {
@@ -13,27 +14,37 @@
       `https://api.github.com/users/${inputValue}`
     );
 
-    const userData = await userResponse.json();
+    if (userResponse.ok) {
+      const userData = await userResponse.json();
+	  errorStatus = null;
 
-    // dispara o evento personalizado 'onUpdateUser'.
-    dispatch("onUpdateUser", {
-      avatar_url: userData.avatar_url,
-      login: userData.login,
-      nome: userData.name,
-      perfil_url: userData.html_url,
-      repositorios_publicos: userData.public_repos,
-      seguidores: userData.followers,
-    });
+      // dispara o evento personalizado 'onUpdateUser'.
+      dispatch("onUpdateUser", {
+        avatar_url: userData.avatar_url,
+        login: userData.login,
+        nome: userData.name,
+        perfil_url: userData.html_url,
+        repositorios_publicos: userData.public_repos,
+        seguidores: userData.followers,
+      });
+    } else {
+      errorStatus = userResponse.status;
+	  dispatch('onUpdateUser', null);
+    }
   }
 </script>
 
 <form action="" on:submit|preventDefault={onSubmit}>
   <input
     type="text"
-    class="input"
-    bind:value={inputValue}
     placeholder="Pesquise o usuário"
+    class="input"
+	class:erro-input={errorStatus === 404}
+    bind:value={inputValue}
   />
+  {#if errorStatus === 404}
+    <span class="erro">Usuário não encontrado !</span>
+  {/if}
   <div class="botao-container">
     <button type="submit" class="botao">Buscar</button>
   </div>
@@ -57,6 +68,22 @@
     font-size: 19.5px;
     line-height: 26px;
     color: #6e8cba;
+  }
+
+  .erro {
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    z-index: -1;
+    color: #ff003e;
+  }
+
+  .erro-input {
+	border: 1px solid #ff003e;
   }
 
   .botao-container {
@@ -84,7 +111,6 @@
     align-items: center;
     gap: 13px;
   }
-
   .botao:hover {
     background: #4590ff;
   }

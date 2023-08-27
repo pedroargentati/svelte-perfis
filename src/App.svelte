@@ -6,7 +6,7 @@
 
   let usuario: IUsuario | null = null;
 
-  function defineUser(event: CustomEvent<IUsuario>) {
+  function defineUser(event: CustomEvent<IUsuario | null>) {
     usuario = event.detail;
   }
 </script>
