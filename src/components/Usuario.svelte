@@ -3,6 +3,9 @@
   import BarraSuperior from "./BarraSuperior.svelte";
 
   export let usuario: IUsuario;
+
+  // deixa a variável (estado) reativo.
+  $: hasRepositories = Boolean(usuario.repositorios_recentes.length);
 </script>
 
 <div class="card-usuario">
@@ -35,21 +38,23 @@
       </div>
     </div>
 
-    <div class="repositorios">
-      <h2 class="titulo">Repositórios Recentes:</h2>
-      <ul>
-        {#each usuario.repositorios_recentes as repo}
-          <li>
-            <a
-              href={repo.url}
-              target="_blank"
-              rel="noopener"
-              class="repositorio">{repo.nome}</a
-            >
-          </li>
-        {/each}
-      </ul>
-    </div>
+    {#if hasRepositories}
+      <div class="repositorios">
+        <h2 class="titulo">Repositórios Recentes:</h2>
+        <ul>
+          {#each usuario.repositorios_recentes as repo}
+            <li>
+              <a
+                href={repo.url}
+                target="_blank"
+                rel="noopener"
+                class="repositorio">{repo.nome}</a
+              >
+            </li>
+          {/each}
+        </ul>
+      </div>
+    {/if}
   </div>
 </div>
 
