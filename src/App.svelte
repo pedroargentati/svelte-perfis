@@ -8,6 +8,7 @@
 
   function defineUser(event: CustomEvent<IUsuario | null>) {
     usuario = event.detail;
+	console.log(usuario)
   }
 </script>
 

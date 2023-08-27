@@ -2,6 +2,7 @@
   import { createEventDispatcher } from "svelte";
   import type IUsuario from "../interfaces/usuario.model";
   import { getRepositories, getUser } from "../requests";
+  import prepareUserBody from "../utils/prepareUserBody";
 
   let inputValue = "";
   let errorStatus: number | null = null;
@@ -13,23 +14,15 @@
   async function onSubmit() {
     const userResponse = await getUser(inputValue);
     const responseRepositories = await getRepositories(inputValue);
-	console.log(responseRepositories)
+
     if (userResponse.ok && responseRepositories.ok) {
       const userData = await userResponse.json();
       const repositoriesData = await responseRepositories.json();
-      console.log(repositoriesData);
 
       errorStatus = null;
 
       // dispara o evento personalizado 'onUpdateUser'.
-      dispatch("onUpdateUser", {
-        avatar_url: userData.avatar_url,
-        login: userData.login,
-        nome: userData.name,
-        perfil_url: userData.html_url,
-        repositorios_publicos: userData.public_repos,
-        seguidores: userData.followers,
-      });
+      dispatch("onUpdateUser", prepareUserBody(userData, repositoriesData));
     } else {
       errorStatus = userResponse.status;
       dispatch("onUpdateUser", null);
