@@ -34,6 +34,22 @@
         Repositórios: <span>{usuario?.repositorios_publicos}</span>
       </div>
     </div>
+
+    <div class="repositorios">
+      <h2 class="titulo">Repositórios Recentes:</h2>
+      <ul>
+        {#each usuario.repositorios_recentes as repo}
+          <li>
+            <a
+              href={repo.url}
+              target="_blank"
+              rel="noopener"
+              class="repositorio">{repo.nome}</a
+            >
+          </li>
+        {/each}
+      </ul>
+    </div>
   </div>
 </div>
 
@@ -78,5 +94,18 @@
   .detalhes-usuario > .info > span {
     color: #6781a8;
     font-weight: normal;
+  }
+
+  .repositorios > .titulo {
+    font-size: 20px;
+    line-height: 31px;
+    font-weight: 600;
+    color: #395278;
+  }
+  .repositorio {
+    font-size: 20px;
+    line-height: 31px;
+    color: #6781a8;
+    transition: color 0.2s;
   }
 </style>
