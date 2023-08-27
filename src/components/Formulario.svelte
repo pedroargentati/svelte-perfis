@@ -16,7 +16,7 @@
 
     if (userResponse.ok) {
       const userData = await userResponse.json();
-	  errorStatus = null;
+      errorStatus = null;
 
       // dispara o evento personalizado 'onUpdateUser'.
       dispatch("onUpdateUser", {
@@ -29,7 +29,7 @@
       });
     } else {
       errorStatus = userResponse.status;
-	  dispatch('onUpdateUser', null);
+      dispatch("onUpdateUser", null);
     }
   }
 </script>
@@ -39,7 +39,7 @@
     type="text"
     placeholder="Pesquise o usuário"
     class="input"
-	class:erro-input={errorStatus === 404}
+    class:erro-input={errorStatus === 404}
     bind:value={inputValue}
   />
   {#if errorStatus === 404}
@@ -83,7 +83,7 @@
   }
 
   .erro-input {
-	border: 1px solid #ff003e;
+    border: 1px solid #ff003e;
   }
 
   .botao-container {
