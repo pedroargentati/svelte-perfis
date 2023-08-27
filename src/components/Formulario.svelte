@@ -1,8 +1,12 @@
 <script lang="ts">
+  import { createEventDispatcher } from "svelte";
   import type IUsuario from "../interfaces/usuario.model";
 
   let inputValue = "";
-  export let usuario: IUsuario | null;
+
+  const dispatch = createEventDispatcher<{
+	onUpdateUser: IUsuario
+  }>();
 
   async function onSubmit() {
     const userResponse = await fetch(
@@ -10,14 +14,16 @@
     );
 
     const userData = await userResponse.json();
-    usuario = {
+
+    // dispara o evento personalizado 'onUpdateUser'.
+    dispatch("onUpdateUser", {
       avatar_url: userData.avatar_url,
       login: userData.login,
       nome: userData.name,
       perfil_url: userData.html_url,
       repositorios_publicos: userData.public_repos,
       seguidores: userData.followers,
-    };
+    });
   }
 </script>
 
@@ -34,7 +40,6 @@
 </form>
 
 <style>
-	
   .input {
     padding: 15px 25px;
     width: calc(100% - 8.75rem);

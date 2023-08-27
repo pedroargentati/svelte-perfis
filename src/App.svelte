@@ -5,6 +5,10 @@
   import type IUsuario from "./interfaces/usuario.model";
 
   let usuario: IUsuario | null = null;
+
+  function defineUser(event: CustomEvent<IUsuario>) {
+    usuario = event.detail;
+  }
 </script>
 
 <div class="app">
@@ -12,7 +16,7 @@
     <Titulo />
 
     <div class="busca-usuario">
-      <Formulario bind:usuario />
+      <Formulario on:onUpdateUser={defineUser} />
     </div>
   </header>
 
