@@ -9,6 +9,14 @@
   async function onSubmit() {
     const userResponse = await fetch(`https://api.github.com/users/${inputValue}`);
 	const userData = await userResponse.json();
+	usuario = {
+		avatar_url: userData.avatar_url,
+		login: userData.login,
+		nome: userData.name,
+		perfil_url: userData.html_url,
+		repositorios_publicos: userData.public_repos,
+		seguidores: userData.followers
+	}
 	console.log(userData);
   }
 </script>
