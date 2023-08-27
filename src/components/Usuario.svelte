@@ -31,7 +31,7 @@
         Seguidores: <span>{usuario?.seguidores}</span>
       </div>
       <div class="info">
-        Repositorios: <span>{usuario?.repositorios_publicos}</span>
+        Repositórios: <span>{usuario?.repositorios_publicos}</span>
       </div>
     </div>
   </div>

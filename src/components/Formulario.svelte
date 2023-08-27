@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   import type IUsuario from "../interfaces/usuario.model";
+  import { getRepositories, getUser } from "../requests";
 
   let inputValue = "";
   let errorStatus: number | null = null;
@@ -10,12 +11,14 @@
   }>();
 
   async function onSubmit() {
-    const userResponse = await fetch(
-      `https://api.github.com/users/${inputValue}`
-    );
-
-    if (userResponse.ok) {
+    const userResponse = await getUser(inputValue);
+    const responseRepositories = await getRepositories(inputValue);
+	console.log(responseRepositories)
+    if (userResponse.ok && responseRepositories.ok) {
       const userData = await userResponse.json();
+      const repositoriesData = await responseRepositories.json();
+      console.log(repositoriesData);
+
       errorStatus = null;
 
       // dispara o evento personalizado 'onUpdateUser'.
