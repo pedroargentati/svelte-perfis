@@ -4,17 +4,12 @@
   import type IUsuario from "./interfaces/usuario.model";
 
   let usuario: IUsuario | null = null;
-  let inputValue;
+  let inputValue = "";
 
-  function onSubmit() {
-    usuario = {
-      avatar_url: "https://github.com/pedroargentati.png",
-      login: "pedroargentati",
-      nome: "Pedro Argentati",
-      perfil_url: "https://github.com/pedroargentati",
-      repositorios_publicos: 50,
-      seguidores: 20,
-    };
+  async function onSubmit() {
+    const userResponse = await fetch(`https://api.github.com/users/${inputValue}`);
+	const userData = await userResponse.json();
+	console.log(userData);
   }
 </script>
 
@@ -24,7 +19,12 @@
 
     <div class="busca-usuario">
       <form action="" on:submit|preventDefault={onSubmit}>
-        <input type="text" class="input" bind:value={inputValue} />
+        <input
+          type="text"
+          class="input"
+          bind:value={inputValue}
+          placeholder="Pesquise o usuário"
+        />
         <div class="botao-container">
           <button type="submit" class="botao">Buscar</button>
         </div>
@@ -33,7 +33,7 @@
   </header>
 
   {#if usuario}
-    <Usuario {usuario}/>
+    <Usuario {usuario} />
   {/if}
 </div>
 
@@ -101,5 +101,4 @@
   .botao:hover {
     background: #4590ff;
   }
-
 </style>
